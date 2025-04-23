@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Score Board For Badminton</title>
+    <style>
+        .intro-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width:100vw;
+            gap: 20px;
+            background-color: #dcdada;
+        }
+
+        .scoreboard-screen {
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+            height: 100vh;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            height: 100vh; 
+        }
+
+        .leftdiv, .rightdiv {
+            width: 50%; 
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .leftdiv {
+            background-color: rgb(81, 81, 245);
+        }
+
+        .rightdiv {
+            background-color: rgb(245, 81, 81);
+        }
+
+        .resetbutton, .minusbutton {
+            position: absolute;
+            z-index: 10;
+            height: 50px;
+            width: 147px;
+            font-size: 30px;
+            font-family: 'fantasy';
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .resetbutton {
+            top: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgb(255, 221, 0);
+            color: black;
+        }
+
+        .minusbutton {
+            top: 0px;
+            background-color: #e0e0e0;
+            color: black;
+        }
+
+        .startbutton{
+            background-color:rgb(188, 188, 188);
+            cursor:pointer;
+            transition: all 0.2s ease;
+            border-radius: 5px;
+            height:50px;
+            width:100px;
+            font-size: 25px;            
+        }
+
+        .minusbutton:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .resetbutton:hover {
+            transform: translateX(-50%) scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .minusbutton:active {
+            transform: scale(0.95);
+        }
+
+        .resetbutton:active {
+            transform: translateX(-50%) scale(0.95); 
+        }
+
+        .endgamebutton {
+            position: absolute;
+            z-index: 10;
+            height: 50px;
+            width: 147px;
+            font-size: 30px;
+            font-family: 'fantasy';
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            background-color: #3d3d3d; /* 設定背景顏色 */
+            color: white;
+            bottom: 20px; /* 距離底部 20px */
+            right: 20px; /* 距離右側 20px */
+        }
+
+        .font {
+            font-size: 370px;
+            font-family:'fantasy';
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <body>
+        <div class="intro-screen">
+            <label style="font-size:30px;">Blue team：
+                <input type="color" id="blueColor" value="#5151f5" style="height:35px; width:50px;">
+            </label>
+            <label style="font-size:30px;">Red team ： 
+                <input type="color" id="redColor" value="#f55151" style="height:35px; width:50px;">
+            </label>
+            <button onclick="startGame()" class="startbutton">START</button>
+        </div>
+    
+        <div class="scoreboard-screen" style="display:none;">
+            <div id="leftdiv" class="leftdiv">
+                <p id="blueteam" class="font"></p>
+            </div>
+            
+            <lable>
+                <input type="color" id="blueangelina" style="position: absolute; bottom:20px; left: 46%;" oninput="updateBlueColor(this.value)";>
+                <input type="color" id="redangelina" style="position: absolute; bottom:20px; right: 46%;" oninput="updateRedColor(this.value)">
+            </lable>
+
+            <button onclick="blueminus()" class="minusbutton" style="left: 12.5%">minus</button>
+            <button onclick="reload()" class="resetbutton">Reset</button>
+            <button onclick="redminus()" class="minusbutton" style="right:12.5%">minus</button>
+            <button onclick="endgame()" class="endgamebutton">END</button>
+        
+            <div id="rightdiv" class="rightdiv">
+                <p id="redteam" class="font"></p>
+            </div>
+        </div>
+    </body>
+    
+
+
+    
+
+    
+    <script>
+        let blueTeamScore = 0;
+        let redTeamScore = 0;
+        document.getElementById("blueteam").innerText = blueTeamScore;
+        document.getElementById("redteam").innerText = redTeamScore;
+
+        const rightdiv = document.getElementById("rightdiv");
+        const leftdiv = document.getElementById("leftdiv");
+
+        rightdiv.addEventListener("click", function() {
+            redTeamScore++;
+            document.getElementById("redteam").innerText = redTeamScore;
+        });
+        leftdiv.addEventListener("click", function() {
+            blueTeamScore++;
+            document.getElementById("blueteam").innerText = blueTeamScore;
+        });
+        
+        function reload(){
+            let blueTeamScore = 0;
+            let redTeamScore = 0;
+            document.getElementById("redteam").innerText = redTeamScore;
+            document.getElementById("blueteam").innerText = blueTeamScore;
+        }
+
+        function blueminus(){
+            if (blueTeamScore > 0) {
+                blueTeamScore--;
+                document.getElementById("blueteam").innerText = blueTeamScore;
+            }
+        }
+        function redminus(){
+            if (redTeamScore > 0) {
+                redTeamScore--;
+                document.getElementById("redteam").innerText = redTeamScore;
+            }
+        }
+        function startGame() {
+            const blue = document.getElementById("blueColor").value;
+            const red = document.getElementById("redColor").value;
+
+            document.querySelector(".intro-screen").style.display = "none";
+            document.querySelector(".scoreboard-screen").style.display = "flex";
+
+            document.getElementById("leftdiv").style.backgroundColor = blue;
+            document.getElementById("rightdiv").style.backgroundColor = red;
+        }
+        function endgame(){
+            document.querySelector(".intro-screen").style.display = "flex";
+            document.querySelector(".scoreboard-screen").style.display = "none";
+            
+            document.getElementById("blueColor").value = "#5151f5";
+            document.getElementById("redColor").value = "#f55151";
+        }
+        function updateBlueColor(color) {
+            document.getElementById("leftdiv").style.backgroundColor = color;
+        }
+        function updateRedColor(color) {
+            document.getElementById("rightdiv").style.backgroundColor = color;
+        }
+    </script>
+</body>
+</html>
